@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Events</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <style>
+        #container {
+            padding: 50px;
+            background-color: #FFF;
+        }
+    </style>
+</head>
+<body>
+<div id="container"></div>
+<script type="text/babel">
+    class CustomEvent extends React.Component {
+        constructor(props) {
+            super(props);
+
+            this.state = {
+                count: 0
+            };
+
+            this.handleMyEvent = this.handleMyEvent.bind(this);
+        }
+
+        handleMyEvent(e) {
+            this.setState({
+                count: this.state.count + 1
+            });
+        }
+
+        componentDidMount() {
+            window.addEventListener("someEvent", this.handleMyEvent);
+        }
+
+        componentWillUnmount() {
+            window.removeEventListener("someEvent", this.handleMyEvent);
+        }
+
+        render() {
+            let buttonStyle = {
+                fontSize: "1em",
+                width: 30,
+                height: 30,
+                fontFamily: "sans-serif",
+                color: "#333",
+                fontWeight: "bold",
+                lineHeight: "3px"
+            };
+
+            return (
+                <button someEvent={handleMyEvent} style={buttonStyle}>
+                    {this.state.count}
+                </button>
+            );
+        }
+    }
+
+    ReactDOM.render(
+        <div>
+            <CustomEvent/>
+        </div>,
+        document.querySelector("#container")
+    );
+</script>
+</body>
+
+</html>
